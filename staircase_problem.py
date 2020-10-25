@@ -15,6 +15,7 @@ class staircaseSolution(object):
             num_ways = {0:1, 1:1}
             for i in range(2, num_stairs + 1):
                 num_ways[i] = sum([num_ways[i - s] for s in steps if s <= i])
+            breakpoint()
             return num_ways[num_stairs]
 
 

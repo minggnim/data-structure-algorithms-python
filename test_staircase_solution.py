@@ -2,7 +2,7 @@ import pytest
 
 @pytest.fixture(scope="module")
 def solution():
-    from stair_case_problem import staircaseSolution
+    from staircase_problem import staircaseSolution
 
     return staircaseSolution()
 
