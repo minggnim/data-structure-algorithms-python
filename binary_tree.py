@@ -26,3 +26,25 @@ class Node(object):
         print(self.data)
         if self.right:
             self.right.print_tree()
+
+    def print_tree_rl(self):
+        if self.right:
+            self.right.print_tree_rl()
+        print(self.data)
+        if self.left:
+            self.left.print_tree_rl()
+
+
+if __name__ == '__main__':
+    n = Node(5)
+    n.insert(3)
+    n.insert(8)
+    n.insert(13)
+    print('print tree in ascending order:')
+    n.print_tree()
+    print('print tree in descending order:')
+    n.print_tree_rl()
+
+
+from functools import lru_cache
+lru_cache
