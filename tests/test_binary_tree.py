@@ -1,4 +1,4 @@
-from ..binary_tree import Node
+from binary_tree import Node
 
 def test_node():
     n = Node(5)

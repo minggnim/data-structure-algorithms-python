@@ -2,8 +2,7 @@ import pytest
 
 @pytest.fixture(scope="module")
 def solution():
-    from ..staircase_problem import staircaseSolution
-
+    from staircase_problem import staircaseSolution
     return staircaseSolution()
 
 test_data = [(-1, 0),

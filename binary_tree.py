@@ -51,7 +51,7 @@ class Node(object):
         pot(node)
         return res
 
-    def max_depth_bottom_up(self, root: Node) -> int:
+    def max_depth_bottom_up(self, root) -> int:
         # bottom condition
         if not root:
             return 0
@@ -61,7 +61,7 @@ class Node(object):
         right_depth = self.max_depth_bottom_up(root.right)
         return max(left_depth, right_depth) + 1
 
-    def max_depth_top_down(self, root: Node, depth: int = 1) -> int:
+    def max_depth_top_down(self, root, depth: int = 1) -> int:
         # bottom condition
         if not root:
             return self.max_depth
