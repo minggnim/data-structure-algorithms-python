@@ -1,0 +1,24 @@
+[project]
+name = "data-structure"
+version = "2020.12.0"
+description = "Data structure practice"
+readme = "README.md"
+requires-python = ">=3.6"
+license = {file = ""}
+keywords = ["data structure"]
+authors = [
+  {email = "ming_gao@outlook.com"},
+  {name = "Ming Gao"}
+]
+
+[build-system]
+requires = [
+    "setuptools >= 35.0.2",
+    "setuptools_scm >= 2.0.0, <3"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.coverage.run]
+omit = [".*", "*/site-packages/*"]
+[tool.coverage.report]
+fail_under = 85

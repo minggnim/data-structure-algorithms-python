@@ -3,7 +3,8 @@ class Node(object):
         self.data = data
         self.left = None
         self.right = None
-        
+        self.max_depth = 0
+
     def insert_node(self, data):
         if self.data:
             if self.data > data:
@@ -19,19 +20,24 @@ class Node(object):
         else:
             self.data = data
 
-    def print_tree(self):
+    def print_tree(self, data_list=[]):
         if self.left:
-            self.left.print_tree()
+            self.left.print_tree(data_list)
+        data_list.append(self.data)
         print(self.data)
         if self.right:
-            self.right.print_tree()
+            self.right.print_tree(data_list)
+        return data_list
 
-    def print_tree_rl(self):
+    def print_tree_rl(self, data_list=[]):
         if self.right:
-            self.right.print_tree_rl()
+            self.right.print_tree_rl(data_list)
+        data_list.append(self.data)
         print(self.data)
         if self.left:
-            self.left.print_tree_rl()
+            self.left.print_tree_rl(data_list)
+        return data_list
+
 
 class nodeOperation(object):
     def __init__(self):
@@ -59,27 +65,31 @@ class nodeOperation(object):
     def inorder_traversal_recursive(self, node):
         if node:
             self.inorder_traversal_recursive(node.left)
-            self.traversed_list += [node.val]
+            self.traversed_list += [node.data]
             self.inorder_traversal_recursive(node.right)
         return self.traversed_list
 
     def inorder_traversal_iterative(self, node):
-        if node:
+        stack = [node]
+        while stack:
+            node = stack.pop()
             if isinstance(node, Node):
-                self.inorder_traversal_recursive(node.right)
-                self.inorder_traversal_recursive(node.val)
-                self.inorder_traversal_recursive(node.left)
-            else:
+                stack.append(node.right)
+                stack.append(node.data)
+                stack.append(node.left)
+            elif node:
                 self.traversed_list += [node]
         return self.traversed_list
 
     def postorder_traversal_recursive(self, node):
         res = []
+
         def pot(node, res=res):
             if node:
                 pot(node.left)
                 pot(node.right)
                 res += [node.data]
+
         pot(node)
         return res
 
@@ -93,7 +103,7 @@ class nodeOperation(object):
         right_depth = self.max_depth_bottom_up(root.right)
         return max(left_depth, right_depth) + 1
 
-    def max_depth_top_down(self, root, depth: int = 1) -> int:
+    def max_depth_top_down(self, root: Node, depth: int = 1) -> int:
         # bottom condition
         if not root:
             return self.max_depth
@@ -106,14 +116,35 @@ class nodeOperation(object):
         self.max_depth_top_down(root.right, depth + 1)
         return self.max_depth
 
+    def check_symmetric_tree(self, root: Node) -> bool:
+        if not root:
+            return True
+        return self.check_symmetric_recursive(root.left, root.right)
 
-if __name__ == '__main__':
+    def check_symmetric_recursive(self, branch_left: Node, branch_right: Node) -> bool:
+        if branch_left is branch_right is None:
+            return True
+        if branch_left is None or branch_right is None:
+            return False
+        return (
+            branch_left.data == branch_right.data
+            and self.check_symmetric_recursive(branch_left.left, branch_right.right)
+            and self.check_symmetric_recursive(branch_left.right, branch_right.left)
+        )
+
+
+if __name__ == "__main__":
     n = Node(5)
     n.insert_node(3)
+    n.insert_node(4)
     n.insert_node(8)
     n.insert_node(13)
     n.insert_node(10)
-    print('print tree in ascending order:')
+    n.insert_node(9)
+    n.insert_node(2)
+    n.insert_node(1)
+    print("print tree in ascending order:")
     n.print_tree()
-    print('print tree in descending order:')
+    print("print tree in descending order:")
     n.print_tree_rl()
+    print(n)
