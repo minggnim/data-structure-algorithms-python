@@ -131,20 +131,3 @@ class nodeOperation(object):
             and self.check_symmetric_recursive(branch_left.left, branch_right.right)
             and self.check_symmetric_recursive(branch_left.right, branch_right.left)
         )
-
-
-if __name__ == "__main__":
-    n = Node(5)
-    n.insert_node(3)
-    n.insert_node(4)
-    n.insert_node(8)
-    n.insert_node(13)
-    n.insert_node(10)
-    n.insert_node(9)
-    n.insert_node(2)
-    n.insert_node(1)
-    print("print tree in ascending order:")
-    n.print_tree()
-    print("print tree in descending order:")
-    n.print_tree_rl()
-    print(n)

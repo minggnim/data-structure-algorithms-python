@@ -22,8 +22,3 @@ class staircaseSolution(object):
                 num_ways[i] = sum([num_ways[i - s] for s in steps if s <= i])
             # breakpoint()
             return num_ways[num_stairs]
-
-
-if __name__ == "__main__":
-    solution = staircaseSolution()
-    solution.calc_num_ways_iterative(5)
