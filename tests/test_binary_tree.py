@@ -9,10 +9,19 @@ def empty_tree():
 
 @pytest.fixture(scope="module")
 def tree():
-    root = Node(5)
-    nodes = [3, 4, 1, 10, 8, 6, 2, 7, 9]
+    root = Node(None)
+    nodes = [5, 3, 4, 1, 10, 8, 6, 2, 7, 9]
     for n in nodes:
         root.insert_node(n)
+    return root
+
+
+@pytest.fixture(scope="module")
+def one_side_tree():
+    root = Node(5)
+    root.insert_node(8)
+    root.insert_node(10)
+    root.insert_node(9)
     return root
 
 
@@ -61,7 +70,8 @@ def test_max_depth(tree, empty_tree):
     assert top_down == bottom_up == 0
 
 
-def test_check_tree_symmetric(empty_tree, tree, sym_tree):
+def test_check_tree_symmetric(empty_tree, tree, one_side_tree, sym_tree):
     assert nodeOperation().check_symmetric_tree(empty_tree)
     assert not nodeOperation().check_symmetric_tree(tree)
+    assert not nodeOperation().check_symmetric_tree(one_side_tree)
     assert nodeOperation().check_symmetric_tree(sym_tree)
