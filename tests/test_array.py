@@ -1,6 +1,8 @@
 from array_related import (
     remove_duplicates_sorted_array_pop,
-    remove_duplicates_sorted_array_two_pointer,
+    remove_duplicates_sorted_array_two_pointers,
+    shift_zeros_to_end_pop,
+    shift_zeros_to_end_two_pointers,
 )
 import pytest
 
@@ -15,17 +17,35 @@ def sorted_array_uniq():
     return [0, 1, 2, 3, 4]
 
 
+@pytest.fixture(scope="module")
+def arr_start_with_zero():
+    return [0, 0, 1, 0]
+
+
+@pytest.fixture(scope="module")
+def arr_no_zero():
+    return [1, 2, 3, 4]
+
+
 def test_remove_duplicates_sorted_array_pop(sorted_array_dup, sorted_array_uniq):
     assert remove_duplicates_sorted_array_pop(sorted_array_dup) == list(range(5))
     assert remove_duplicates_sorted_array_pop(sorted_array_uniq) == list(range(5))
 
 
-def test_remove_duplicates_sorted_array_two_pointer(
+def test_remove_duplicates_sorted_array_two_pointers(
     sorted_array_dup, sorted_array_uniq
 ):
-    assert remove_duplicates_sorted_array_two_pointer(sorted_array_dup) == list(
+    assert remove_duplicates_sorted_array_two_pointers(sorted_array_dup) == list(
         range(5)
     )
-    assert remove_duplicates_sorted_array_two_pointer(sorted_array_uniq) == list(
+    assert remove_duplicates_sorted_array_two_pointers(sorted_array_uniq) == list(
         range(5)
     )
+
+
+def test_shift_zeros_to_end(arr_no_zero, arr_start_with_zero):
+    assert shift_zeros_to_end_pop(arr_no_zero) == arr_no_zero
+    assert shift_zeros_to_end_pop(arr_start_with_zero) == [1, 0, 0, 0]
+
+    assert shift_zeros_to_end_two_pointers(arr_no_zero) == arr_no_zero
+    assert shift_zeros_to_end_two_pointers(arr_start_with_zero) == [1, 0, 0, 0]
