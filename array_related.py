@@ -55,3 +55,14 @@ def shift_zeros_to_end_two_pointers(arr: List[int]) -> List[int]:
             arr[i], arr[j] = arr[j], arr[i]
             j += 1
     return arr
+
+
+def max_profit_two_pointers(prices: List[int]) -> int:
+    j, profit = 0, 0
+    for i in range(1, len(prices)):
+        if prices[i] > prices[i - 1]:
+            profit += prices[i] - prices[j]
+            j += 1
+        else:
+            j = i
+    return profit
