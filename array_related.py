@@ -66,3 +66,52 @@ def max_profit_two_pointers(prices: List[int]) -> int:
         else:
             j = i
     return profit
+
+
+def rotate_array_pop(arr: List[int], k: int) -> List[int]:
+    """
+    for each iteration i in k
+    do insert last element to the start of the array
+    pop the last element
+    """
+    i = 0
+    while i < k:
+        arr.insert(0, arr.pop())
+        i += 1
+    return arr
+
+
+def rotate_array_shift(arr: List[int], k: int) -> List[int]:
+    """
+    for each iteration i in k
+    shift one element to right
+    assign the first element with the last
+    """
+    i = 0
+    while i < k:
+        tmp = arr[-1]
+        for j in range(len(arr) - 1, -1, -1):
+            arr[j] = arr[j - 1]
+        arr[0] = tmp
+        i += 1
+    return arr
+
+
+def rotate_array_shift_2(arr: List[int], k: int) -> List[int]:
+    """
+    an improved version of shift
+    1. speed up rotation by taking out the full rotations
+    2. use two for loops
+    3. use one line assignment
+    """
+    for _ in range(k):
+        prev = arr[-1]
+        for j in range(len(arr)):
+            arr[j], prev = prev, arr[j]
+    return arr
+
+
+def rotate_array_reverse(arr: List[int], k: int) -> List[int]:
+    k %= len(arr)
+    arr[:] = arr[-k:] + arr[:-k]
+    return arr
