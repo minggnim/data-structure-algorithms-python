@@ -4,6 +4,8 @@ from array_related import (
     shift_zeros_to_end_pop,
     shift_zeros_to_end_two_pointers,
     max_profit_two_pointers,
+    check_duplicates,
+    list_intersection,
 )
 import pytest
 
@@ -56,3 +58,12 @@ def test_max_profit():
     assert max_profit_two_pointers([1, 2, 3, 4, 5]) == 4
     assert max_profit_two_pointers([5, 4, 3, 2, 1]) == 0
     assert max_profit_two_pointers([5, 1, 4, 3, 6]) == 6
+
+
+def test_check_duplicates():
+    assert check_duplicates([1, 1, 2, 3])
+    assert not check_duplicates([1, 2, 3])
+
+
+def test_list_intersection():
+    assert (list_intersection([1, 1, 2, 3], [1, 1, 3, 4])) == [1, 1, 3]

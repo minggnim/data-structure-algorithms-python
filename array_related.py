@@ -112,6 +112,91 @@ def rotate_array_shift_2(arr: List[int], k: int) -> List[int]:
 
 
 def rotate_array_reverse(arr: List[int], k: int) -> List[int]:
+    """
+    note that -k is equivalent to len(arr) - k
+    """
     k %= len(arr)
     arr[:] = arr[-k:] + arr[:-k]
     return arr
+
+
+def check_duplicates(arr: List[int]) -> bool:
+    """
+    here the trick is to use set as hash table, as objects in set use hash value internally
+    """
+    lookup = set()
+    for it in arr:
+        if it in lookup:
+            return True
+        else:
+            lookup.add(it)
+    return False
+
+
+def check_duplicates_set(arr: List[int]) -> bool:
+    return len(arr) > len(set(arr))
+
+
+def list_intersection_counter(arr1: List[int], arr2: List[int]) -> List[int]:
+    """
+    use Counter to create two counters from the two lists
+    and find the intersections
+    """
+    from collections import Counter
+
+    # c1, c2 = map(Counter, (arr1, arr2))
+    c1, c2 = Counter(arr1), Counter(arr2)
+    return list((c1 & c2).elements())
+
+
+def list_intersection(arr1: List[int], arr2: List[int]) -> List[int]:
+    res = []
+    for el in arr1:
+        for j in range(len(arr2)):
+            if el == arr2[j]:
+                arr2.pop(j)
+                res.append(el)
+                break
+    return res
+
+
+def list_plus_one_recursive(arr: List[int]) -> List[int]:
+    """
+    here the list is treated as a decimal number
+    one is added to the last element of the list
+    """
+    if len(arr) == 1 and arr[0] == 9:
+        return [1, 0]
+
+    if arr[-1] < 9:
+        arr[-1] += 1
+        return arr
+    else:
+        arr[-1] = 0
+        arr[:-1] = list_plus_one_recursive(arr[:-1])
+    return arr
+
+
+def list_plus_one_iterative(arr: List[int]) -> List[int]:
+    for i in range(len(arr) - 1, -1, -1):
+        if arr[i] < 9:
+            arr[i] += 1
+            return arr
+        else:
+            arr[i] = 0
+    return [1] + [0] * len(arr)
+
+
+def list_plus_one_iterative_2(arr: List[int]) -> List[int]:
+    for i in range(len(arr)):
+        if arr[~i] < 9:
+            arr[~i] += 1
+            return arr
+        else:
+            arr[~i] = 0
+    return [1] + [0] * len(arr)
+
+
+def list_plus_one_brutal_force(arr: List[int]) -> List[int]:
+    dec = int("".join([str(d) for d in arr])) + 1
+    return [int(s) for s in str(dec)]
