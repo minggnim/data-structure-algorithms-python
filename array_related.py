@@ -200,3 +200,45 @@ def list_plus_one_iterative_2(arr: List[int]) -> List[int]:
 def list_plus_one_brutal_force(arr: List[int]) -> List[int]:
     dec = int("".join([str(d) for d in arr])) + 1
     return [int(s) for s in str(dec)]
+
+
+def str_to_int(s: str) -> int:
+    """
+    string to int the regex way
+    """
+    import re
+
+    digit_pattern = r"(^(?:\+|\-|)\d+)\D*"
+    found = re.findall(digit_pattern, s.strip())
+    res = 0
+    if found:
+        res = int(res)
+    return res
+
+
+def find_needle_in_haystack(haystack: str, needle: str) -> int:
+    """
+    Implement strStr() in C++ or Java
+    Return the index of the first occurrence of needle in haystack,
+    or -1 if needle is not part of haystack.
+    """
+    if needle == "":
+        return 0
+    if haystack == "" or len(needle) > len(haystack):
+        return -1
+
+    i, start = 0, []
+    while i < len(haystack):
+        if haystack[i] == needle[0]:
+            start.append(i)
+        i += 1
+
+    if not start:
+        return -1
+
+    for s in start:
+        if s + len(needle) <= len(haystack):
+            if haystack[s : s + len(needle)] == needle:
+                return s
+
+    return -1
