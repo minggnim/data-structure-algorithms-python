@@ -212,7 +212,7 @@ def str_to_int(s: str) -> int:
     found = re.findall(digit_pattern, s.strip())
     res = 0
     if found:
-        res = int(res)
+        res = int(found[0])
     return res
 
 
@@ -242,3 +242,76 @@ def find_needle_in_haystack(haystack: str, needle: str) -> int:
                 return s
 
     return -1
+
+
+def num_to_alpha(num: int) -> str:
+    """
+    implement translation from numbers to alphabets
+    not only single alphabets but also the combinations,
+    such as aa, ab, ..., zz
+    """
+    import string
+
+    lookup = dict((k + 1, v) for k, v in enumerate(string.ascii_lowercase))
+    dm = divmod(num, 26)
+    if dm[1] == 0:
+        if dm[0] > 1:
+            res = lookup[dm[0] - 1] + "z"
+        else:
+            res = "z"
+    else:
+        res = lookup[dm[0]] + lookup[dm[1]]
+
+    return res
+
+
+def simple_moving_average(series: List[float]) -> List[float]:
+    sma_series = []
+    for i, n in enumerate(series):
+        if i == 0:
+            prev_avg = n
+        cur_val = n
+        prev_avg = prev_avg + (cur_val - prev_avg) / (i + 1)
+        sma_series += [prev_avg]
+
+    return sma_series
+
+
+def simple_moving_average_recursive(series):
+    n = len(series)
+    sma_series = []
+
+    def recursive_fn(series, n, sma_series=sma_series):
+        if n == 1:
+            cur_avg = series[0]
+            sma_series += [cur_avg]
+            return cur_avg
+
+        prev_avg = recursive_fn(series, n - 1)
+        cur_val = series[n - 1]
+        cur_avg = prev_avg + (cur_val - prev_avg) / n
+        sma_series += [cur_avg]
+
+        return cur_avg
+
+    recursive_fn(series, n, sma_series=sma_series)
+
+    return sma_series
+
+
+def exponential_moving_average_recursive(series: List[float], alpha=0.9) -> List[float]:
+    ema_series: List[float] = []
+    n = len(series)
+
+    def recursive_fn(n, series=series, ema_series=ema_series, alpha=alpha):
+        if n == 1:
+            ema_series += [series[0]]
+            return series[0]
+        prev_avg = recursive_fn(n - 1)
+        cur_avg = alpha * series[n - 1] + (1 - alpha) * prev_avg
+        ema_series += [cur_avg]
+        return cur_avg
+
+    recursive_fn(n, series=series, ema_series=ema_series, alpha=alpha)
+
+    return ema_series

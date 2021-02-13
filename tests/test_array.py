@@ -1,3 +1,4 @@
+import pytest
 from array_related import (
     remove_duplicates_sorted_array_pop,
     remove_duplicates_sorted_array_two_pointers,
@@ -6,8 +7,13 @@ from array_related import (
     max_profit_two_pointers,
     check_duplicates,
     list_intersection,
+    num_to_alpha,
+    str_to_int,
+    find_needle_in_haystack,
+    simple_moving_average,
+    simple_moving_average_recursive,
+    exponential_moving_average_recursive,
 )
-import pytest
 
 
 @pytest.fixture(scope="module")
@@ -67,3 +73,34 @@ def test_check_duplicates():
 
 def test_list_intersection():
     assert (list_intersection([1, 1, 2, 3], [1, 1, 3, 4])) == [1, 1, 3]
+
+
+@pytest.mark.parametrize("input, expected", [(26, "z"), (27, "aa"), (52, "az")])
+def test_num_to_alpha(input, expected):
+    assert num_to_alpha(input) == expected
+
+
+@pytest.mark.parametrize("input, expected", [("100test", 100), ("test001", 0)])
+def test_string_to_int(input, expected):
+    assert str_to_int(input) == expected
+
+
+@pytest.mark.parametrize(
+    "needle, haystack, expected", [("tst", "test", -1), ("test", "stringtest", 6)]
+)
+def test_find_needle_in_haystack(needle, haystack, expected):
+    assert find_needle_in_haystack(haystack, needle) == expected
+
+
+def test_simple_moving_average():
+    assert simple_moving_average([1, 2, 3, 4, 5]) == [1.0, 1.5, 2.0, 2.5, 3.0]
+
+
+def test_simple_moving_average_recursive():
+    assert simple_moving_average_recursive([1, 2, 3, 4, 5]) == [1.0, 1.5, 2.0, 2.5, 3.0]
+
+
+def test_exponential_moving_average_recursive():
+    assert exponential_moving_average_recursive([1, 2, 3, 4], 0.9) == pytest.approx(
+        [1, 1.9, 2.89, 3.889]
+    )
