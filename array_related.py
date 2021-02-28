@@ -16,9 +16,13 @@ def remove_duplicates_sorted_array_pop(sorted_array: List[int]) -> List[int]:
 
 
 def remove_duplicates_sorted_array_two_pointers(sorted_array: List[int]) -> List[int]:
+    """
+    1, 2, 2, 2, 3, 4
+    two pointers method
+    """
     j = 0
     for i in range(1, len(sorted_array)):
-        if sorted_array[i] != sorted_array[i - 1]:
+        if sorted_array[i] != sorted_array[j]:
             j += 1
             sorted_array[j] = sorted_array[i]
     return sorted_array[: j + 1]
