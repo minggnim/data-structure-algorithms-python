@@ -5,7 +5,7 @@ logging.basicConfig(level=logging.INFO)
 
 def bubble_sort(nums: list) -> list:
     """
-    bubble sort inplace operation
+    bubble sort inplace operation O(n^2)
     for each item i compare with the rest n - i items
     """
     for i in range(len(nums) - 1):
@@ -17,7 +17,7 @@ def bubble_sort(nums: list) -> list:
 
 def insert_sort(nums: list) -> list:
     """
-    insert sort inplace operation
+    insert sort inplace operation O(n^2)
     for each item i compare with the previous i - 1 items
     """
     for i in range(1, len(nums)):
@@ -31,6 +31,10 @@ def insert_sort(nums: list) -> list:
 
 
 def merge_sort(nums: list) -> list:
+    """
+    sort on each half of the list O(nlogn)
+    divide and conque
+    """
     if len(nums) < 2:
         return nums
     mid_item = len(nums) // 2
@@ -66,10 +70,15 @@ def merge(left: list, right: list) -> list:
 
 
 def quick_sort(nums: list) -> list:
+    """
+    recursive approach O(nlogn)
+
+    """
     from random import randint
     if len(nums) < 2:
         return nums
-    pivot = nums[randint(0, len(nums)-1)]
+    # pivot = nums[randint(0, len(nums)-1)]
+    pivot = nums[len(nums) // 2]
     low, same, high = [], [], []
     for n in nums:
         if n > pivot:
