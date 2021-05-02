@@ -8,6 +8,8 @@ from array_related import (
     check_duplicates,
     list_intersection,
     num_to_alpha,
+    digit_to_letter_v1,
+    digit_to_letter_v2,
     str_to_int,
     find_needle_in_haystack,
     simple_moving_average,
@@ -75,9 +77,28 @@ def test_list_intersection():
     assert (list_intersection([1, 1, 2, 3], [1, 1, 3, 4])) == [1, 1, 3]
 
 
-@pytest.mark.parametrize("input, expected", [(26, "z"), (27, "aa"), (52, "az")])
+@pytest.mark.parametrize("input, expected", 
+                         [(26, "z"), 
+                          (27, "aa"), 
+                          (52, "az"), 
+                        #   (26**2*26+26*26+26, 'zzz')
+                          ])
 def test_num_to_alpha(input, expected):
     assert num_to_alpha(input) == expected
+
+
+@pytest.mark.parametrize("input, expected",
+                         [(26**2*26+26**1*26+26**0*26, 'zzz')]
+)
+def test_digit_to_letter_v1(input, expected):
+    assert digit_to_letter_v1(input) == expected
+
+
+@pytest.mark.parametrize("input, expected",
+                         [(26**2*25+26**1*25+26**0*25, 'zzz')]
+)
+def test_digit_to_letter_v2(input, expected):
+    assert digit_to_letter_v2(input) == expected
 
 
 @pytest.mark.parametrize("input, expected", [("100test", 100), ("test001", 0)])

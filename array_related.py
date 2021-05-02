@@ -248,11 +248,12 @@ def find_needle_in_haystack(haystack: str, needle: str) -> int:
     return -1
 
 
-def num_to_alpha(num: int) -> str:
+def digit_to_letter(num: int) -> str:
     """
     implement translation from numbers to alphabets
     not only single alphabets but also the combinations,
     such as aa, ab, ..., zz
+    TODO: THIS VERSION HAS THE LIMITATION TO CONVERT BEYOND THREE LETTERS
     """
     import string
 
@@ -268,6 +269,39 @@ def num_to_alpha(num: int) -> str:
 
     return res
 
+
+def digit_to_letter_v1(d: int) -> str:
+    """
+    convert digits to letters following patterns below
+    a-z, aa-zz, aaa-zzz, etc.
+    in this implementation, the digit starts from 1 and 
+    follows the mappings below
+    1 -> a, 26 -> z, 27 -> aa
+    """
+    res = ''
+    while d > 0:
+        d, m = divmod(d, 26)
+        if m == 0:
+            res = 'z' + res
+            d -= 1
+        else:
+            res = chr(ord('a') + m - 1) + res
+    return res
+
+
+def digit_to_letter_v2(d: int) -> str:
+    """
+    convert digits to letters following patterns below
+    a - z, ba - zz, baa - zzz, etc.
+    in this implementation, the digits starts from 1 and 
+    follows the mappings below
+    0 -> a, 25 -> z, 26 -> ba
+    """
+    res = ''
+    while d > 0:
+        d, m = divmod(d, 26)
+        res = chr(ord('a') + m) + res
+    return res
 
 def simple_moving_average(series: List[float]) -> List[float]:
     sma_series = []
