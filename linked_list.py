@@ -1,5 +1,6 @@
 import logging
-logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+
+logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
 
 
 def __type_check__(fn):
@@ -8,6 +9,7 @@ def __type_check__(fn):
             return fn(*args, **kwargs)
         else:
             logging.error("Value error: not a Node instance")
+
     return decorated
 
 
@@ -21,7 +23,7 @@ class Node(object):
 
 
 class LinkedList(object):
-    def __init__(self, head = None):
+    def __init__(self, head=None):
         self.head = head
 
     def __repr__(self):
@@ -100,17 +102,17 @@ def reverse_linked_list_recursive(cur_node):
     return rest_list
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     ll = create_linked_list()
-    logging.info(f'linked list {ll}')
+    logging.info(f"linked list {ll}")
     rev_head = reverse_linked_list(ll)
     rev_ll = LinkedList(rev_head)
-    logging.info('1. Iterative Approach:')
-    logging.info(f'reversed linked list {rev_ll}')
-    logging.info(f'check original linked list {ll}')
-    logging.info(f'2. Recursive Approach:')
+    logging.info("1. Iterative Approach:")
+    logging.info(f"reversed linked list {rev_ll}")
+    logging.info(f"check original linked list {ll}")
+    logging.info(f"2. Recursive Approach:")
     ll = create_linked_list()
     rev_head_rec = reverse_linked_list_recursive(ll.head)
     rev_ll_rec = LinkedList(rev_head_rec)
-    logging.info(f'reversed linked list {rev_ll_rec}')
-    logging.info(f'check original linked list {ll}')
+    logging.info(f"reversed linked list {rev_ll_rec}")
+    logging.info(f"check original linked list {ll}")

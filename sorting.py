@@ -24,9 +24,9 @@ def insert_sort(nums: list) -> list:
         j = i - 1
         cur_num = nums[i]
         while 0 <= j and nums[j] > cur_num:
-            nums[j+1] = nums[j]
+            nums[j + 1] = nums[j]
             j -= 1
-        nums[j+1] = cur_num
+        nums[j + 1] = cur_num
     return nums
 
 
@@ -42,14 +42,14 @@ def merge_sort(nums: list) -> list:
     right = merge_sort(nums[mid_item:])
     return merge(left, right)
 
+
 def merge(left: list, right: list) -> list:
     # edge case: merge with an empty list
     if len(left) == 0:
         return right
     if len(right) == 0:
         return left
-    
-    tmp = []
+    tmp: list = []
     idx_left = idx_right = 0
     while len(tmp) < len(left) + len(right):
         if left[idx_left] < right[idx_right]:
@@ -58,7 +58,7 @@ def merge(left: list, right: list) -> list:
         else:
             tmp += [right[idx_right]]
             idx_right += 1
-    
+
         if idx_left == len(left):
             tmp += right[idx_right:]
             break
@@ -68,13 +68,13 @@ def merge(left: list, right: list) -> list:
     return tmp
 
 
-
 def quick_sort(nums: list) -> list:
     """
     recursive approach O(nlogn)
 
     """
     from random import randint
+
     if len(nums) < 2:
         return nums
     # pivot = nums[randint(0, len(nums)-1)]
@@ -90,7 +90,6 @@ def quick_sort(nums: list) -> list:
     return quick_sort(low) + same + quick_sort(high)
 
 
-
 def time_sorting_algorithm(algo="bubble_sort"):
     from timeit import timeit
     import random
@@ -100,15 +99,15 @@ def time_sorting_algorithm(algo="bubble_sort"):
     stmt = f"{algo}({array})"
     time = timeit(setup=setup, stmt=stmt)
     logging.info(
-        f'''Algorithm {algo} is selected:
+        f"""Algorithm {algo} is selected:
           Execute time {time:.2f}
           Input array {array};
-          Sorted array {eval(stmt)}'''
+          Sorted array {eval(stmt)}"""
     )
 
 
 if __name__ == "__main__":
-    time_sorting_algorithm('bubble_sort')
-    time_sorting_algorithm('insert_sort')
-    time_sorting_algorithm('merge_sort')
-    time_sorting_algorithm('quick_sort')
+    time_sorting_algorithm("bubble_sort")
+    time_sorting_algorithm("insert_sort")
+    time_sorting_algorithm("merge_sort")
+    time_sorting_algorithm("quick_sort")

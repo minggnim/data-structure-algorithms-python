@@ -129,7 +129,7 @@ def rotate_array_reverse(arr: List[int], k: int) -> List[int]:
 
 def check_duplicates(arr: List[int]) -> bool:
     """
-    here the trick is to use set as hash table, 
+    here the trick is to use set as hash table,
     as objects in set use hash value internally
     """
     lookup = set()
@@ -278,18 +278,18 @@ def digit_to_letter_v1(d: int) -> str:
     """
     convert digits to letters following patterns below
     a-z, aa-zz, aaa-zzz, etc.
-    in this implementation, the digit starts from 1 and 
+    in this implementation, the digit starts from 1 and
     follows the mappings below
     1 -> a, 26 -> z, 27 -> aa
     """
-    res = ''
+    res = ""
     while d > 0:
         d, m = divmod(d, 26)
         if m == 0:
-            res = 'z' + res
+            res = "z" + res
             d -= 1
         else:
-            res = chr(ord('a') + m - 1) + res
+            res = chr(ord("a") + m - 1) + res
     return res
 
 
@@ -297,15 +297,16 @@ def digit_to_letter_v2(d: int) -> str:
     """
     convert digits to letters following patterns below
     a - z, ba - zz, baa - zzz, etc.
-    in this implementation, the digits starts from 1 and 
+    in this implementation, the digits starts from 1 and
     follows the mappings below
     0 -> a, 25 -> z, 26 -> ba
     """
-    res = ''
+    res = ""
     while d > 0:
         d, m = divmod(d, 26)
-        res = chr(ord('a') + m) + res
+        res = chr(ord("a") + m) + res
     return res
+
 
 def simple_moving_average(series: List[float]) -> List[float]:
     sma_series = []
