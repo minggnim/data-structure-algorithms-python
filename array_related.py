@@ -62,6 +62,9 @@ def shift_zeros_to_end_two_pointers(arr: List[int]) -> List[int]:
 
 
 def max_profit_two_pointers(prices: List[int]) -> int:
+    """
+    buy low and sell high to accumulative profit
+    """
     j, profit = 0, 0
     for i in range(1, len(prices)):
         if prices[i] > prices[i - 1]:
@@ -126,7 +129,8 @@ def rotate_array_reverse(arr: List[int], k: int) -> List[int]:
 
 def check_duplicates(arr: List[int]) -> bool:
     """
-    here the trick is to use set as hash table, as objects in set use hash value internally
+    here the trick is to use set as hash table, 
+    as objects in set use hash value internally
     """
     lookup = set()
     for it in arr:

@@ -7,7 +7,7 @@ from array_related import (
     max_profit_two_pointers,
     check_duplicates,
     list_intersection,
-    num_to_alpha,
+    digit_to_letter,
     digit_to_letter_v1,
     digit_to_letter_v2,
     str_to_int,
@@ -84,7 +84,7 @@ def test_list_intersection():
                         #   (26**2*26+26*26+26, 'zzz')
                           ])
 def test_num_to_alpha(input, expected):
-    assert num_to_alpha(input) == expected
+    assert digit_to_letter(input) == expected
 
 
 @pytest.mark.parametrize("input, expected",
