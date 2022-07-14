@@ -29,21 +29,6 @@ def build_invalid_bst():
     return root
 
 
-def search_bst(root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
-    '''
-    Input: root = [4,2,7,1,3], val = 2
-    Output: [2,1,3]
-    '''
-    if not root:
-        return None
-    elif root.val == val:
-        return root
-    elif root.val < val:
-        return search_bst(root.right, val)
-    else:
-        return search_bst(root.left, val) 
-
-
 def generate_trees(n: int) -> List[Optional[TreeNode]]:
     '''
     Example:
@@ -154,3 +139,90 @@ class validateBst(object):
                 stack.append([root.left, low, root.val])
         return True
         
+    
+def search_bst(root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
+    '''
+    Input: root = [4,2,7,1,3], val = 2
+    Output: [2,1,3]
+    '''
+    if not root:
+        return None
+    elif root.val == val:
+        return root
+    elif root.val < val:
+        return search_bst(root.right, val)
+    else:
+        return search_bst(root.left, val) 
+
+
+def insert_bst(root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
+    '''
+    Example:
+        Input: root = [4,2,7,1,3], val = 5
+        Output: [4,2,7,1,3,5]
+    Solution:
+        Non-intrusion solution -- find the end node and insert
+        Note at each function call -- 
+        insert_bst returns subtree to root.left or root.right
+    '''
+    if not root:
+        return TreeNode(val)
+    if root.val < val:
+        root.right = insert_bst(root.right, val)
+    if root.val > val:
+        root.left = insert_bst(root.left, val)
+    return root
+
+
+def delete_bst(root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    if not root:
+        return root
+    if root.val < key:  # go to right subtree to delete val
+        root.right = delete_bst(root.right, key)
+    elif root.val > key:  # go to left subtree to delete val
+        root.left = delete_bst(root.left, key)
+    else:  # found node and start deleting
+        if not root.left:
+            return root.right
+        elif not root.right:
+            return root.left
+        else:  
+            # target node has both left and right subtrees
+            # find the leftmost node in right tree
+            # use it as the target val before deleting it 
+            tmp = root.right
+            while tmp.left:
+                tmp = tmp.left
+            root.val = tmp.val
+            root.right = delete_bst(root.right, root.val)
+    return root
+
+
+def balanced_bst(root: Optional[TreeNode]) -> bool:
+    '''
+    Given a binary tree, determine if it is height-balanced.
+    For this problem, a height-balanced binary tree is defined as:
+    a binary tree in which the left and right subtrees of every node differ 
+    in height by no more than 1
+    Examples:
+        Input: root = [3,9,20,null,null,15,7]
+        Output: true
+        Input: root = [1,2,2,3,3,null,null,4,4]
+        Output: false
+        Input: root = []
+        Output: true
+    Solution:
+        - at current node
+            get depth from left & right subtree
+            check if abs(l-r)>1 return False
+            else return max(l,r)+1
+        - stop: not node, return 0 
+    '''
+    def chk_bal(root) -> int:
+        if not root:
+            return 0
+        l = chk_bal(root.left)
+        r = chk_bal(root.right)
+        if abs(l-r) > 1 or l == -1 or r == -1:
+            return -1
+        return max(l, r) + 1
