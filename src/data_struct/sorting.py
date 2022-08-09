@@ -20,13 +20,15 @@ def insert_sort(nums: list) -> list:
     insert sort inplace operation O(n^2)
     for each item i compare with the previous i - 1 items
     """
-    for i in range(1, len(nums)):
-        j = i - 1
-        cur_num = nums[i]
-        while 0 <= j and nums[j] > cur_num:
+    for step in range(1, len(nums)):
+        key = nums[step]
+        j = step - 1
+        # shift nums[j] to right until nums[j] < key
+        while 0 <= j and nums[j] > key:
             nums[j + 1] = nums[j]
             j -= 1
-        nums[j + 1] = cur_num
+        # insert key after nums[j]
+        nums[j + 1] = key
     return nums
 
 
@@ -58,7 +60,7 @@ def merge(left: list, right: list) -> list:
         else:
             tmp += [right[idx_right]]
             idx_right += 1
-
+        # early termination criteria -- when one side is exhausted
         if idx_left == len(left):
             tmp += right[idx_right:]
             break
@@ -71,7 +73,6 @@ def merge(left: list, right: list) -> list:
 def quick_sort(nums: list) -> list:
     """
     recursive approach O(nlogn)
-
     """
     from random import randint
 
@@ -90,24 +91,25 @@ def quick_sort(nums: list) -> list:
     return quick_sort(low) + same + quick_sort(high)
 
 
-def time_sorting_algorithm(algo="bubble_sort"):
+def time_sorting_algorithm(algo, array):
     from timeit import timeit
-    import random
-
-    array = [random.randint(0, 100) for i in range(10)]
+    
     setup = f"from __main__ import {algo}"
     stmt = f"{algo}({array})"
     time = timeit(setup=setup, stmt=stmt)
     logging.info(
         f"""Algorithm {algo} is selected:
-          Execute time {time:.2f}
-          Input array {array};
-          Sorted array {eval(stmt)}"""
+        Execute time {time:.2f}
+        Input array {array};
+        Sorted array {eval(stmt)}"""
     )
 
 
 if __name__ == "__main__":
-    time_sorting_algorithm("bubble_sort")
-    time_sorting_algorithm("insert_sort")
-    time_sorting_algorithm("merge_sort")
-    time_sorting_algorithm("quick_sort")
+    import random
+    array = [random.randint(0, 100) for i in range(10)]
+
+    time_sorting_algorithm("bubble_sort", array)
+    time_sorting_algorithm("insert_sort", array)
+    time_sorting_algorithm("merge_sort", array)
+    time_sorting_algorithm("quick_sort", array)
