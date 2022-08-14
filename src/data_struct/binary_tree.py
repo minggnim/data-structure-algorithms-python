@@ -39,7 +39,7 @@ class Node(object):
         return data_list
 
 
-class nodeOperation(object):
+class NodeOperation(object):
     def __init__(self):
         self.sorted_nodes = []
         self.traversed_list = []

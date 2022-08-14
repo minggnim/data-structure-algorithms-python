@@ -91,9 +91,50 @@ def quick_sort(nums: list) -> list:
     return quick_sort(low) + same + quick_sort(high)
 
 
+def heapify(arr, n, i):
+    '''
+    one run finds the largest from the current root arr[i] and its children
+    if root isn't the largest, keep moving the root down
+    '''
+    # Find largest among root and children
+    largest = i
+    l = 2 * i + 1
+    r = 2 * i + 2
+    if l < n and arr[i] < arr[l]:
+        largest = l
+    if r < n and arr[largest] < arr[r]:
+        largest = r
+    # If root is not largest, swap with largest and 
+    # continue heapifying -- moving the 'root' down the tree
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        heapify(arr, n, largest)
+    return arr
+  
+ 
+def heap_sort(arr):
+    '''
+    1. build max heap from arr
+    2. iter through the arr from the back
+    3. for each iter 
+        1. move head to cur pos (back of the arr)
+        2. reheapify the remaining tree without the cur pos
+    '''
+    n = len(arr)
+    # Build max heap
+    for i in range(n//2-1, -1, -1):
+        arr = heapify(arr, n, i)
+    # start sorting based on max heap
+    for i in range(n-1, 0, -1):
+        # Swap head with current leaf
+        arr[i], arr[0] = arr[0], arr[i]
+        # Heapify the remaining array
+        arr = heapify(arr, i, 0)
+    return arr
+
+
 def time_sorting_algorithm(algo, array):
     from timeit import timeit
-    
     setup = f"from __main__ import {algo}"
     stmt = f"{algo}({array})"
     time = timeit(setup=setup, stmt=stmt)
@@ -108,8 +149,8 @@ def time_sorting_algorithm(algo, array):
 if __name__ == "__main__":
     import random
     array = [random.randint(0, 100) for i in range(10)]
-
     time_sorting_algorithm("bubble_sort", array)
     time_sorting_algorithm("insert_sort", array)
     time_sorting_algorithm("merge_sort", array)
     time_sorting_algorithm("quick_sort", array)
+    time_sorting_algorithm('heap_sort', array)
