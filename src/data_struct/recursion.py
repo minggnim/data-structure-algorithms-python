@@ -66,7 +66,7 @@ class permutation:
             take n from nums and repeat the process for the remaining list
             use a param to pass data through levels
         '''
-        def permute(cur_list, path=[]):
+        def recersive_fn(cur_list, path=[]):
             if not cur_list:
                 res.append(path)
             for i in range(len(cur_list)):
@@ -79,7 +79,7 @@ class permutation:
     def iterative_fn(self, nums) -> List[List[int]]:
         '''
         Solution: The idea is to increase the length of the sub-arrays by one in each iteration. 
-        During the iteration, only a num not seen before can be appended to an existing sub-array to creat a new sub-array.
+        During the iteration, only a num not seen before can be appended to an existing sub-array to create a new sub-array.
         '''
         ans = [[]]
         for _ in range(len(nums)):

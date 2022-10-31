@@ -93,6 +93,28 @@ class NodeOperation(object):
         pot(node)
         return res
 
+    def check_symmetric_tree(self, root: Node) -> bool:
+        if not root:
+            return True
+        return self.check_symmetric_recursive(root.left, root.right)
+
+    def check_symmetric_recursive(self, branch_left: Node, branch_right: Node) -> bool:
+        if branch_left and branch_right is None:
+            return True
+        if branch_left is None or branch_right is None:
+            return False
+        return (
+            branch_left.data == branch_right.data
+            and self.check_symmetric_recursive(branch_left.left, branch_right.right)
+            and self.check_symmetric_recursive(branch_left.right, branch_right.left)
+        )
+
+
+class MaxDepth:
+    '''
+    time: O(num_nodes)
+    space: O(num_levels)
+    '''
     def max_depth_bottom_up(self, root) -> int:
         # bottom condition
         if not root:
@@ -116,18 +138,37 @@ class NodeOperation(object):
         self.max_depth_top_down(root.right, depth + 1)
         return self.max_depth
 
-    def check_symmetric_tree(self, root: Node) -> bool:
-        if not root:
-            return True
-        return self.check_symmetric_recursive(root.left, root.right)
 
-    def check_symmetric_recursive(self, branch_left: Node, branch_right: Node) -> bool:
-        if branch_left is branch_right is None:
-            return True
-        if branch_left is None or branch_right is None:
-            return False
-        return (
-            branch_left.data == branch_right.data
-            and self.check_symmetric_recursive(branch_left.left, branch_right.right)
-            and self.check_symmetric_recursive(branch_left.right, branch_right.left)
-        )
+class MinDepth:
+    def min_depth_dfs(self, root) -> int:
+        if not root:
+            return 0
+        if root.left and root.right:
+            return min(self.min_depth_dfs(root.left), self.min_depth_dfs(root.right)) + 1
+        else:
+            return self.min_depth_dfs(root.left or root.right) + 1
+
+    def min_depth_bfs(self, root) -> int:
+        import collections
+        if not root:
+            return 0
+        queue = collections.deque((root, 1))
+        while queue:
+            node, level = queue.popleft()
+            # only consider when node exists
+            if node:
+                # terminates at the leaf node
+                if not node.left and not node.right:
+                    return level
+                else: # at lease one node exists
+                    queue.append((node.left, level + 1))
+                    queue.append((node.right, level + 1))
+                
+
+class BinaryTreePath:
+    def tree_path_dfs(self, root: Optional[TreeNode]) -> List[str]:
+        if not root:
+            return []
+        if not root.left and not root.right:
+            return [str(root.val)]
+        return [str(root.val) + '->' + i for i in self.tree_path_dfs(root.left)] + [str(root.val) + '->' + i for i in self.tree_path_dfs(root.right)]
