@@ -1,4 +1,6 @@
-class Node(object):
+from typing import List, Optional
+
+class TreeNode(object):
     def __init__(self, data):
         self.data = data
         self.left = None
@@ -6,21 +8,23 @@ class Node(object):
         self.max_depth = 0
 
     def insert_node(self, data):
+        '''binary search tree style'''
         if self.data:
             if self.data > data:
                 if self.left:
                     self.left.insert_node(data)
                 else:
-                    self.left = Node(data)
+                    self.left = TreeNode(data)
             else:
                 if self.right:
                     self.right.insert_node(data)
                 else:
-                    self.right = Node(data)
+                    self.right = TreeNode(data)
         else:
             self.data = data
 
     def print_tree(self, data_list=[]):
+        '''inorder style'''
         if self.left:
             self.left.print_tree(data_list)
         data_list.append(self.data)
@@ -29,28 +33,19 @@ class Node(object):
             self.right.print_tree(data_list)
         return data_list
 
-    def print_tree_rl(self, data_list=[]):
-        if self.right:
-            self.right.print_tree_rl(data_list)
-        data_list.append(self.data)
-        print(self.data)
-        if self.left:
-            self.left.print_tree_rl(data_list)
-        return data_list
 
-
-class NodeOperation(object):
+class TreeOperation(object):
     def __init__(self):
         self.sorted_nodes = []
         self.traversed_list = []
         self.max_depth = 0
 
-    def preorder_traversal_recursive(self, node):
+    def preorder_traversal_recursive(self, node, node_list=[]):
         if node:
-            self.traversed_list.append(node.data)
-            self.preorder_traversal_recursive(node.left)
-            self.preorder_traversal_recursive(node.right)
-        return self.traversed_list
+            node_list.append(node.data)
+            self.preorder_traversal_recursive(node.left, node_list)
+            self.preorder_traversal_recursive(node.right, node_list)
+        return node_list
 
     def preorder_traversal_iterative(self, node):
         stack = [node]
@@ -62,18 +57,18 @@ class NodeOperation(object):
                 stack.append(node.left)
         return self.traversed_list
 
-    def inorder_traversal_recursive(self, node):
+    def inorder_traversal_recursive(self, node, node_list=[]):
         if node:
-            self.inorder_traversal_recursive(node.left)
-            self.traversed_list += [node.data]
-            self.inorder_traversal_recursive(node.right)
-        return self.traversed_list
+            self.inorder_traversal_recursive(node.left, node_list)
+            node_list += [node.data]
+            self.inorder_traversal_recursive(node.right, node_list)
+        return node_list
 
     def inorder_traversal_iterative(self, node):
         stack = [node]
         while stack:
             node = stack.pop()
-            if isinstance(node, Node):
+            if isinstance(node, TreeNode):
                 stack.append(node.right)
                 stack.append(node.data)
                 stack.append(node.left)
@@ -83,23 +78,21 @@ class NodeOperation(object):
 
     def postorder_traversal_recursive(self, node):
         res = []
-
         def pot(node, res=res):
             if node:
                 pot(node.left)
                 pot(node.right)
                 res += [node.data]
-
         pot(node)
         return res
 
-    def check_symmetric_tree(self, root: Node) -> bool:
+    def check_symmetric_tree(self, root: TreeNode) -> bool:
         if not root:
             return True
         return self.check_symmetric_recursive(root.left, root.right)
 
-    def check_symmetric_recursive(self, branch_left: Node, branch_right: Node) -> bool:
-        if branch_left and branch_right is None:
+    def check_symmetric_recursive(self, branch_left: TreeNode, branch_right: TreeNode) -> bool:
+        if branch_left is branch_right is None:
             return True
         if branch_left is None or branch_right is None:
             return False
@@ -125,7 +118,7 @@ class MaxDepth:
         right_depth = self.max_depth_bottom_up(root.right)
         return max(left_depth, right_depth) + 1
 
-    def max_depth_top_down(self, root: Node, depth: int = 1) -> int:
+    def max_depth_top_down(self, root: TreeNode, depth: int = 1) -> int:
         # bottom condition
         if not root:
             return self.max_depth
@@ -172,3 +165,49 @@ class BinaryTreePath:
         if not root.left and not root.right:
             return [str(root.val)]
         return [str(root.val) + '->' + i for i in self.tree_path_dfs(root.left)] + [str(root.val) + '->' + i for i in self.tree_path_dfs(root.right)]
+
+
+class BinaryTreePathTargetSum:
+    def tree_path_sum_bool(self, root: Optional[TreeNode], target_sum: int) -> bool:
+        if not root:
+            return False
+        if root.left is root.right is None and root.val == target_sum:
+            return True
+        return self.tree_path_sum(root.left, target_sum-root.val) or self.tree_path_sum(root.right, target_sum-root.val)
+    
+    def tree_path_dfs_list(self, root: Optional[TreeNode], target_sum: int) -> List[str]:
+        tree_path = BinaryTreePath()
+        paths = tree_path.tree_path_dfs(root)
+        return [map(int, p.split('->')) for p in paths if sum(map(int, p.split('->'))) == target_sum]
+
+    def tree_path_sum_list(self, root: Optional[TreeNode], target_sum: int) -> List[str]:
+        def dfs(root, target_sum, ls):
+            if root:
+                if not root.left and not root.right and target_sum == root.val:
+                    ls.append(root.val)
+                    res.append(ls)
+                dfs(root.left, target_sum-root.val, ls+[root.val])
+                dfs(root.right, target_sum-root.val, ls+[root.val])
+        
+        res = []
+        dfs(root, target_sum, [])
+        return res
+
+    def backtrack(self, root: TreeNode, target_sum: int) -> List[List[int]]:
+        def dfs(root):
+            if not root:
+                return
+            # top down
+            path.append(root.val)
+            if (root.left, root.right) == (None,None) and sum(path) == target_sum: 
+                final_paths.append(list(path))
+            else: 
+                dfs(root.left)
+                dfs(root.right)
+            # backtrack
+            path.pop()
+        
+        final_paths, path = [], []
+        dfs(root)
+        return final_paths
+  
