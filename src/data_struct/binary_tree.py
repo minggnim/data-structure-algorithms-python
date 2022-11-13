@@ -211,3 +211,30 @@ class BinaryTreePathTargetSum:
         dfs(root)
         return final_paths
   
+    def path_sum_subset(self, root: Optional[TreeNode], targetSum: int) -> int:
+        '''
+        memorization
+        traverse the tree
+        at each node, check if  
+        1. current path from root == target
+        2. current path from root - target exists
+        update hashmap paths with current path and current path - target
+        '''
+        def dfs(self, root, targetSum, path_sum=0):
+            if not root:
+                return
+            path_sum += root.val
+            if path_sum == targetSum:
+                res += 1
+            if path_sum - targetSum in paths:
+                res += paths[path_sum - targetSum]
+            paths[path_sum] += 1
+            dfs(root.left, targetSum, path_sum)
+            dfs(root.right, targetSum, path_sum)
+            paths[path_sum] -= 1
+        
+        res = 0
+        paths = defaultdict(int)
+        dfs(root, targetSum)
+        return res
+    
