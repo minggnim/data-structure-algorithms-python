@@ -238,3 +238,41 @@ class BinaryTreePathTargetSum:
         dfs(root, targetSum)
         return res
     
+
+class SumLeftLeaves:
+    '''
+    left leave -- root.left, root.left.left is root.left.right is None
+    add in left flag for straightforward implementation
+    '''
+    def s1(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        if root.left and root.left.left is root.left.right is None:
+            return root.left.val + self.s1(root.right)
+        else:
+            return self.s1(root.left) + self.s1(root.right)  
+
+    def s2(self, root: Optional[TreeNode]) -> int:
+        def helper(root, left=False):
+            if left and root.left is root.right is None:
+                self.res += root.val
+            if root.left:
+                helper(root.left, True)
+            if root.right:
+                helper(root.right, False)
+        self.res = 0
+        helper(root)
+        return self.res
+
+    def s3(self, root: Optional[TreeNode]) -> int:
+        res = 0
+        stack = [(root, False)]
+        while stack:
+            root, left = stack.pop()
+            if root:
+                if left and root.left is root.right is None:
+                    res += root.val
+                else:
+                    stack.append((root.left, True))
+                    stack.append((root.right, False))
+        return res
